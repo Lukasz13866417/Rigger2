@@ -1,0 +1,56 @@
+name: 100style_xsens_28
+coordinate_system:
+  handedness: right
+  up: Y
+  forward: Z
+  unit_scale_to_meters: 0.01
+
+joints:
+  root: Hips
+  pelvis: Hips
+  spine: Chest
+  spine_1: Chest2
+  spine_2: Chest3
+  chest: Chest4
+  neck: Neck
+  head: Head
+  left_clavicle: LeftCollar
+  left_shoulder: LeftShoulder
+  left_elbow: LeftElbow
+  left_wrist: LeftWrist
+  right_clavicle: RightCollar
+  right_shoulder: RightShoulder
+  right_elbow: RightElbow
+  right_wrist: RightWrist
+  left_hip: LeftHip
+  left_knee: LeftKnee
+  left_ankle: LeftAnkle
+  left_foot: LeftAnkle
+  left_toe: LeftToe
+  right_hip: RightHip
+  right_knee: RightKnee
+  right_ankle: RightAnkle
+  right_foot: RightAnkle
+  right_toe: RightToe
+
+markers:
+  left_heel:
+    joint: LeftAnkle
+    local_offset_m: [0.0, -0.095, -0.045]
+  left_toe:
+    joint: LeftToe
+    local_offset_m: [0.0, -0.012, 0.040]
+  right_heel:
+    joint: RightAnkle
+    local_offset_m: [0.0, -0.095, -0.045]
+  right_toe:
+    joint: RightToe
+    local_offset_m: [0.0, -0.012, 0.040]
+
+retarget:
+  source_role_map: {}
+  basis_correction_quat_wxyz: {}
+
+# Plain BVH does not carry trustworthy anatomical joint limits. The first
+# learned experiment therefore excludes joint-limit corruptions for this rig.
+joint_limits: {}

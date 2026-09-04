@@ -1,0 +1,17 @@
+seed: 1234
+
+motion:
+  fps: 60.0
+  coordinate_system:
+    handedness: right
+    up: Y
+    forward: Z
+    unit_scale_to_meters: 1.0
+
+logging:
+  level: INFO
+  json: false
+
+paths:
+  workspace: null
+

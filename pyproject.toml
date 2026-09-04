@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "motionlab"
+version = "0.1.0"
+description = "Deterministic-first tooling for grading and repairing humanoid walk animation."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [{ name = "MotionLab contributors" }]
+dependencies = [
+  "cma>=4.4,<5",
+  "numpy>=1.26,<2.5",
+  "platformdirs>=4.2",
+  "pydantic>=2.7",
+  "PyYAML>=6.0",
+  "rich>=13.7",
+  "scipy>=1.12",
+  "torch>=2.2",
+  "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.10",
+  "playwright>=1.50,<2",
+  "pytest>=8.2",
+  "pytest-cov>=5.0",
+  "ruff>=0.5",
+]
+visualization = ["matplotlib>=3.8", "pillow>=10.3"]
+server = ["fastapi>=0.111", "uvicorn>=0.30"]
+
+[project.scripts]
+motionlab = "motionlab.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["motionlab"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_ignores = true
+packages = ["motionlab"]
+
+[[tool.mypy.overrides]]
+module = ["yaml", "scipy.*", "matplotlib.*", "cma.*"]
+ignore_missing_imports = true
