@@ -21,7 +21,8 @@ uv run pytest
 
 Downloaded datasets, generated experiment artifacts/checkpoints, and human-evaluation logs are
 kept local and excluded from Git. See `data/100style/README.md` for real-data setup and
-`docs/calibrated_subjective_pilot.md` for the labeling workflow. Paths under `artifacts/` in the
+`docs/noticeability_pilot.md` for the current labeling workflow (the old ordinal-quality protocol
+is preserved but paused). Paths under `artifacts/` in the
 implementation reports describe local research runs, not files included in a fresh clone.
 
 ## Current commands

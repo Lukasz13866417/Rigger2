@@ -2,6 +2,39 @@
 
 ## Current stage
 
+Inspection is now explicit opt-in: after saving the primary answer, the default controls are
+**Next animation** and **Inspect (optional)**. No animation, inspection panel or inspected
+question appears unless Inspect is clicked. Continuing creates no inspection amendment;
+inspection telemetry starts only on opening. The active path is
+`artifacts/phase17_opt_in_inspection_pilot`, with a separately frozen presentation revision.
+The previous repeated-view pilot remains intact with one primary answer, its inspection
+amendment and eight served/playback events; inherited completed trials are skipped, not relabeled.
+The live opt-in collector returns HTTP 200 with the exact frozen HTML. All previous evidence
+hashes and copied motion assets match. The new frozen protocol ID is
+`notice-protocol:sha256:735ea94a096d8724dd98b3d62a055c295e2a547fe348b367ed6331e94dd75b69`.
+Opt-in verification: **283 tests pass in 168.47 seconds**, including six new browser cases
+covering hidden inspection, direct continuation without an amendment, explicit opening/timing,
+and lossless progress across both earlier protocols and camera versions. Repository-wide Ruff,
+format checks and mypy (136 source files) pass. No human labels were submitted by these checks.
+
+Current labeling uses the user-requested **bounded repeated-view noticeability** continuation:
+up to three pre-answer plays at 0.85x, 0.90x, 0.95x or 1x. The same localhost endpoint now serves
+the latest opt-in-inspection continuation. Its target is explicitly `repeated_view_notice`, not the
+one-view `spontaneous_notice` construct. Per-view speed, duration and timestamps are recorded;
+the server enforces both the three-play cap and speed-adjusted full-view requirement. The old
+single-view collector, frozen manifest and three serving/playback events remain intact, with
+zero saved answers at cutover. Tests cover preserved progress, early-answer rejection, invalid
+speeds, a rejected fourth play, immediate answering after one play, inspection and reloads under
+both camera versions. Calibration and exports do not silently combine the two targets. No
+training or learned production optimization is enabled. See `docs/noticeability_pilot.md`.
+
+Historical repeated-view verification: **277 tests passed in 148.45 seconds**, including 27
+noticeability tests covering both camera versions. Ruff and mypy (135 package files) passed.
+That now-paused collector responded with HTTP 200 and was frozen under
+`notice-protocol:sha256:077cc2ea775b4d7942cc51f277dd15666e9a0f4c2d02e72b2a5ebbae83ccf861`.
+Every recorded original evidence hash still matches; repeated-view pre-collection analysis and
+export contain zero labels and explicitly name the new target.
+
 Phases 0–6, fixed-rig critic hardening, learned spline red-team diagnostics, adaptive search-space
 work, deterministic production repair, and the first fixed-rig perceptual-quality experiment are
 complete. Deterministic CMA succeeds on all 18 production runs and the autonomous mechanical
@@ -13,10 +46,10 @@ CMA remain correctly unrun.
 Phase 15 replaces the initial skeleton pilot with a calibrated neutral-mannequin pilot. The Phase
 14 pilot is paused and immutable after four raw observations and five served-playlist events. The
 Phase 15 artifact contains 13 five-rung calibration ladders, 40 scored stimuli, eight hidden repeat
-presentations, and 12 adaptive same-viewport comparisons. Human collection is active under a
-content-addressed protocol freeze; the append-only observations have deliberately not been
-analyzed for interim conclusions. The existing zero-observation analysis is the pre-collection
-readiness snapshot, not a statement about the live log.
+presentations, and 12 adaptive same-viewport comparisons. Its completed first session is now
+paused and preserved under the Phase 17 noticeability transition described below. The earlier
+zero-observation analysis remains a historical pre-collection snapshot, not a claim about the
+completed log.
 
 Phase 16 completes the work that is independent of those pending labels: a separate 625-motion
 unlabeled/calibration candidate pool, dummy-tested analysis and bounded query scheduling,
@@ -36,7 +69,7 @@ run for this camera update.
 The cutover preserved 13 submitted scores and 21 served events under the original protocol, and
 copied all 129 NPZ assets with identical hashes. Only a pause marker was added to the original
 pilot; no original manifest, motion, or log was rewritten. Both protocol freezes validate. The
-continuation is served at `http://127.0.0.1:8765`, with protocol ID
+continuation was served at `http://127.0.0.1:8765`, with protocol ID
 `human-evaluation-protocol:sha256:c1b4d0f8f6af65c0734b576bff2e8d92df65b0a254c1b0071e2012554f40a78a`
 and render hash
 `render:sha256:9304a3c1d2f62892bfa927527569fa6f800c2d85a46942d954a1dc02f2b2d99e`.
@@ -46,7 +79,79 @@ analysis/forensics; inherited scheduling rows must not be treated as new measure
 Camera-cutover verification: all 249 repository tests pass, including real-browser wheel/pan/
 orbit/lock/persistence checks and authenticated progress-resumption tests. Ruff and formatting
 pass repository-wide; mypy passes all 119 package source files. Both original and continuation
-protocol freezes validate, and the running free-camera page responds successfully on localhost.
+protocol freezes validate. This is historical camera-cutover verification; the collector is now
+paused and replaced by the separately frozen noticeability protocol.
+
+## Phase 17: spontaneous noticeability transition (human-pilot review stop)
+
+The primary future learned perceptual target is now **P(a human spontaneously notices an
+unintended motion problem during one normal-speed presentation)**, not OK-versus-good quality.
+The implementation and local pilot are described in `docs/noticeability_pilot.md`.
+
+- Both old Phase 15 collectors are paused. Exactly 30 completed-session observations are
+  preserved in place and in `artifacts/phase17_legacy_quality_freeze`: 24 single-animation
+  ordinal judgments and six pairwise judgments. Scheduling-only inherited rows are not counted
+  again. Scores 1 through 7 have counts **0, 0, 10, 3, 8, 2, 1**. Original question/scale, hashes,
+  rater/session/trial, inspection metadata, provenance and timestamps remain unchanged. The four
+  older Phase 14 skeleton observations also remain untouched and separate.
+- New collection protocol `motionlab.noticeability.v1` asks NO/MAYBE/YES only after one complete
+  initial 1x/default-camera viewing. The first answer is committed before replay, speed changes,
+  zoom, pan, orbit, alternate views or skeleton inspection unlock. Optional inspectability and
+  diagnostic information are separate append-only amendments, never replacements. Interrupted
+  first presentations are skipped without a label; saved primary answers survive reloads.
+- Style policy B is explicit: human and future critic receive the same intended style/goal.
+  Source aliases that reveal adversarial provenance are not shown as style instructions. The
+  original mannequin renderer, viewport geometry and both camera-version hashes are retained;
+  render strata are not silently pooled for migration. Historical browser environment variation
+  cannot be reconstructed and is not claimed to be identical.
+- `artifacts/phase17_noticeability_pilot` contains **68 trials / 64 assets**: 24 exact-render
+  overlaps (13 original-camera, 11 free-camera), 36 physical-strength ladder samples across
+  Neutral/Proud and three mechanisms, four new clean/sham controls and four hidden repeats.
+  Fewer than 30 old singles exist, so no overlap labels are invented. A declared 24-hour gap
+  unlocks old overlaps at **2026-09-05 23:16:56 Europe/Warsaw**; the 44 other trials are available
+  first. Overlaps and known repeated exposures are flagged rather than called naive viewing.
+- Population counts are 48 NOTICEABILITY_THRESHOLD, 11 CLEAN_SHAM_CONTROL, three
+  CALIBRATION_ONLY and two ADVERSARIAL_CRITIC; DEPLOYMENT_CANDIDATE remains available as a
+  separate category. Construction severity is not a human label. Catastrophic calibration-only
+  cases are excluded from the direct training export.
+- Implemented regularized monotone ordinal calibration, render-separated leave-source-out
+  evaluation, confusion/Brier/log-loss reports, per-category bootstrap uncertainty and
+  source/style/family breakdowns. Weak proxies are derived, versioned, idempotent/reversible,
+  source-linked and gated on adequate support plus held-source predictive improvement.
+  Pairwise judgments never become detection labels; direct human evidence outranks proxies.
+  The conservative 30-overlap-per-render gate cannot be met by this small pilot alone; that
+  limitation is not interpreted as proof that old quality evidence is useless.
+- Implemented raw response/false-alarm/miss/repeat/inspection-transition analysis, a modest
+  shared-threshold latent detectability model with supported-only session effects, and guarded
+  psychometric threshold/JND estimation. Optional interleaved staircases use YES-down/NO-up/
+  MAYBE-hold with clean/sham catches. Independent fixed validation plans require supported
+  human threshold estimates and a separately prepared render batch.
+- Added the minimal GroupNorm fixed-rig clip noticeability head with explicit style/goal context,
+  three response probabilities and P(YES) as the primary output. Clip labels are never copied
+  across frames; exports retain exactly the displayed cycle window. Detector metrics and
+  held-out-validation operating-point helpers are implemented without a default tau=0.5.
+  Production's staged contract is deterministic feasibility AND p_notice <= tau, with
+  max(0, p_notice - tau) penalty; aggressive red-team probing is separate and inactive.
+- **First-stop results:** direct new labels = 0; completed overlap re-labels = 0; weak proxies = 0.
+  Calibration curve/usefulness, clean/sham false-alarm rate, obvious misses, repeat reliability,
+  family thresholds/JND, NO/MAYBE/YES rates and spontaneous/inspected disagreement are all
+  **awaiting human collection**, not zero-error results. Complete the small pilot and review it
+  before selecting the next threshold-focused batch or retraining.
+- No learned training experiment, perceptual CMA, normalization change or variable-rig
+  graph/attention model was run. GroupNorm remains the baseline, LayerNorm an experimental
+  artifact, and all prior adversarial-quality pairs, absolute-q and relative-comparator ablations
+  are preserved. `train-noticeability-critic` / `evaluate-noticeability-critic` are explicit
+  first-stop guards; full training/evaluation orchestration is deliberately deferred, not claimed
+  complete. Existing deterministic repair production behavior is unchanged.
+
+Phase 17 verification: **266 repository tests passed in 131.63 seconds**, including 16 new
+noticeability cases with real-browser checks under both historical mannequin camera versions.
+Ruff passes repository-wide; mypy passes all 131 package files. The active pilot freezes 69 assets
+under protocol ID
+`notice-protocol:sha256:51657c073faa4ae6fb29983e79c487f44f8f15ec2d7be348fbd488f76bd5a1d7`.
+Its loopback endpoint returns HTTP 200. Pre-collection analysis, calibration, zero-proxy migration,
+direct-only export and the required first-stop report are saved separately under
+`artifacts/phase17_noticeability_precollection`; none claims human performance from dummy tests.
 
 ## Implemented behavior
 
@@ -807,14 +912,12 @@ artifacts are under `artifacts/phase16_label_independent`.
 
 ## Next three tasks
 
-1. Continue the separately frozen `phase15_free_camera_pilot` using the same participant/session.
-   Preserve the original Phase 15 evidence and keep the two camera protocols separate. Do not
-   resume Phase 14, alter active stimuli,
-   rendering/questions/randomization/schema, inject the separate Phase 16 pool into the playlist,
-   or run interim perceptual analysis while collection is in progress.
-2. After the user declares collection sufficient, validate the frozen protocol and produce the
-   protocol-aware human-reliability/pilot report first (do not concatenate v3/v4 observations): latent estimates/intervals, category coverage,
-   hidden repeats, anchor drift, inspection behavior, direct-pair versus ordinal evidence,
-   human/synthetic agreement, and underjudged items.
-3. Stop for an explicit review decision. Only that report review may authorize perceptual-critic
-   retraining, perceptual CMA, or a variable-rig graph/attention model milestone.
+1. Collect the small `phase17_opt_in_inspection_pilot` with the original rater ID. Keep all old
+   collectors paused and do not mutate frozen stimuli, camera protocols, questions or logs.
+2. Authenticate direct new labels and produce the requested noticeability/overlap report:
+   raw response distribution, clean/sham false alarms, intended-obvious misses, repeats,
+   repeated-view/inspected disagreement and viewing/speed usage. Keep the earlier spontaneous
+   target's threshold estimates and legacy calibration separate from repeated-view results.
+   Use those results to propose a focused staircase and independent fixed validation batch.
+3. Stop for explicit review before any critic retraining or learned production optimization.
+   Variable-rig graph/attention and normalization work remain out of scope.

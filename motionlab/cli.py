@@ -35,6 +35,7 @@ from motionlab.io.rig_spec import load_rig_spec
 from motionlab.kinematics.retarget import retarget_rest_relative
 from motionlab.metrics.aggregate import grade_motion_deterministic
 from motionlab.metrics.artifacts import save_deterministic_report
+from motionlab.noticeability.cli import register_commands as register_noticeability_commands
 from motionlab.optimization.cmaes import CMAOptimizationConfig, optimize_motion_with_cma
 from motionlab.optimization.diagnostics import (
     deterministic_production_rerun_gate,
@@ -91,6 +92,7 @@ app = typer.Typer(
     no_args_is_help=True,
 )
 console = Console()
+register_noticeability_commands(app)
 
 
 @app.command()
